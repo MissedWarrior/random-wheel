@@ -10,6 +10,6 @@ export default {
   plugins: [vue()],
   base: '/random-wheel/',
   alias: {
-    '/@/': path.resolve(__dirname, './src')
+    '/@': path.resolve(__dirname, './src')
   }
 };

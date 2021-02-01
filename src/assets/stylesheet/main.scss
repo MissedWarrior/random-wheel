@@ -1,0 +1,17 @@
+@import "normalize";
+@import "variables";
+
+html {
+  font-family: "Open Sans", sans-serif;
+  color: black;
+  font-weight: 400;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  background: #FFF;
+  text-rendering: optimizeLegibility;
+}

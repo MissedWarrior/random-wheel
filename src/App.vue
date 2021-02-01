@@ -1,23 +1,37 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png"/>
-  <HelloWorld msg="Hello Vue 3 + Vite"/>
+  <div :class="$style.app">
+    <Header/>
+    <div :class="$style.main">
+      <Button @click="test" appearance="secondary">Test</Button>
+    </div>
+    <Footer/>
+  </div>
 </template>
 
 <script>
-  import HelloWorld from './components/HelloWorld.vue'
+  import Button from '/@/components/Button.vue';
+  import Header from '/@/components/Header.vue';
+  import Footer from '/@/components/Footer.vue';
 
   export default {
-    components: { HelloWorld }
+    name: 'App',
+    components: { Footer, Header, Button },
+    methods: {
+      test(e) {
+        console.log(e);
+      }
+    }
   }
 </script>
 
-<style lang="scss">
-  #app {
-    font-family: "Open Sans", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
+<style module lang="scss">
+  .app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  .main {
+    flex: 1;
   }
 </style>
