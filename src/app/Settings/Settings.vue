@@ -9,7 +9,7 @@
     <PointsList/>
   </div>
   <div :class="$style.dataTransfer">
-    <DataTransfer/>
+    <DataTransfer @import-data="importData" @export-data="exportData"/>
   </div>
   <div :class="$style.backgroundImage">
     <BackgroundImage/>
@@ -32,7 +32,8 @@
     inject: ['configKey'],
     methods: {
       addPoint(newPoint) {
-        const currentItems = parseSavedData(getStorageItem(this.configKey));
+        const key = this.configKey;
+        const currentItems = parseSavedData(getStorageItem(key), key);
 
         const newItem = {
           value: newPoint,
@@ -40,8 +41,14 @@
 
         currentItems.unshift(newItem);
 
-        setStorageItem(this.configKey, JSON.stringify(currentItems));
+        setStorageItem(key, JSON.stringify(currentItems));
       },
+      importData(file) {
+        console.log('import', file);
+      },
+      exportData() {
+        console.log('export');
+      }
     }
   };
 </script>

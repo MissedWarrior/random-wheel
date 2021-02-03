@@ -29,12 +29,12 @@
     data() {
       return {
         isModalOpen: false,
-      }
+      };
     },
     provide: {
       configKey: 'roulette-points',
     }
-  }
+  };
 </script>
 
 <style module lang="scss">
