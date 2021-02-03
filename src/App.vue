@@ -32,7 +32,7 @@
       };
     },
     provide: {
-      configKey: 'roulette-points',
+      configKey: 'roulette-data',
     }
   };
 </script>
