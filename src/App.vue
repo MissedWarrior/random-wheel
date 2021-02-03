@@ -1,25 +1,38 @@
 <template>
   <div :class="$style.app">
-    <Header/>
+    <Header @open-modal="isModalOpen = true"/>
     <div :class="$style.main">
-      <Button @click="test" appearance="secondary">Test</Button>
+      <Button appearance="secondary">Test</Button>
     </div>
     <Footer/>
+
+    <teleport to="body">
+      <Modal v-if="isModalOpen" @close-modal="isModalOpen = false">
+        <Settings/>
+      </Modal>
+    </teleport>
   </div>
 </template>
 
 <script>
   import Button from '/@/components/Button.vue';
-  import Header from '/@/components/Header.vue';
-  import Footer from '/@/components/Footer.vue';
+  import Modal from '/@/components/Modal.vue';
+
+  import Header from '/@/layout/Header.vue';
+  import Footer from '/@/layout/Footer.vue';
+
+  import Settings from '/@/app/Settings/Settings.vue';
 
   export default {
     name: 'App',
-    components: { Footer, Header, Button },
-    methods: {
-      test(e) {
-        console.log(e);
+    components: { Modal, Footer, Header, Button, Settings },
+    data() {
+      return {
+        isModalOpen: false,
       }
+    },
+    provide: {
+      configKey: 'roulette-points',
     }
   }
 </script>

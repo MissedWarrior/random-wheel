@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "allowJs": true,
+    "sourceMap": true,
+    "baseUrl": "./",
+    "paths": {
+      "/@/*": ["src/*"]
+    }
+  },
+  "files": ["src/main.js"],
+  "exclude": [
+    "node_modules"
+  ]
+}

@@ -46,9 +46,9 @@
   .button {
     appearance: none;
     height: 28px;
-    line-height: 24px;
+    line-height: 14px;
     border-radius: 3px;
-    padding: 0 8px;
+    padding: 6px 12px;
     transition: 0.3s;
     cursor: pointer;
     user-select: none;
