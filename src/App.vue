@@ -31,9 +31,6 @@
         isModalOpen: false,
       };
     },
-    provide: {
-      configKey: 'roulette-data',
-    }
   };
 </script>
 

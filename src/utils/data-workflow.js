@@ -1,7 +1,7 @@
 import { removeStorageItem } from './storage';
 
 /**
- * @param data {Array<Object>}
+ * @param data {Array<Object> | Readonly<Array<Object>>}
  * @return {Object}
  */
 export const createConfig = (data) => {

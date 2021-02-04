@@ -17,8 +17,9 @@
 </template>
 
 <script lang="ts">
-  import { getStorageItem, setStorageItem } from '/@/utils/storage';
-  import { parseSavedData, createConfig, validateConfig } from '/@/utils/data-workflow';
+  import { createConfig, validateConfig } from '/@/utils/data-workflow';
+
+  import { useStore } from '/@/composables/roulette-store';
 
   import AddPoint from './AddPoint.vue';
   import BackgroundImage from './BackgroundImage.vue';
@@ -29,19 +30,12 @@
   export default {
     name: 'Settings',
     components: { AddPoint, BackgroundImage, DataTransfer, PointsList, SearchPoints },
-    inject: ['configKey'],
+    setup() {
+      return { store: useStore() }
+    },
     methods: {
       addPoint(newPoint) {
-        const key = this.configKey;
-        const currentItems = parseSavedData(getStorageItem(key), key);
-
-        const newItem = {
-          value: newPoint,
-        };
-
-        currentItems.unshift(newItem);
-
-        setStorageItem(key, JSON.stringify(currentItems));
+        this.store.addVariant(newPoint);
       },
       importData(e) {
         const { files } = e.target;
@@ -72,7 +66,7 @@
           }
 
           if (confirm('Внимание! В результате импорта ВСЕ текущие данные будут перезаписаны. Вы согласны?')) {
-            setStorageItem(this.configKey, JSON.stringify(result.data));
+            this.store.setNewVariants(result.data);
             alert('Данные успешно импортированы!');
           }
         };
@@ -82,8 +76,7 @@
         };
       },
       exportData() {
-        const key = this.configKey;
-        const currentItems = parseSavedData(getStorageItem(key), key);
+        const currentItems = this.store.state.value.variants;
 
         const config = createConfig(currentItems);
         const blob = new Blob([JSON.stringify(config)], { type: 'application/json' });
