@@ -23,6 +23,8 @@
 
   import Settings from '/@/app/Settings/Settings.vue';
 
+  import { wheelStore } from '/@/global/wheel-store';
+
   export default {
     name: 'App',
     components: { Modal, Footer, Header, Button, Settings },
@@ -31,6 +33,9 @@
         isModalOpen: false,
       };
     },
+    provide: {
+      wheelStore,
+    }
   };
 </script>
 

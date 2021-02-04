@@ -19,8 +19,6 @@
 <script lang="ts">
   import { createConfig, validateConfig } from '/@/utils/data-workflow';
 
-  import { useStore } from '/@/composables/roulette-store';
-
   import AddPoint from './AddPoint.vue';
   import BackgroundImage from './BackgroundImage.vue';
   import DataTransfer from './DataTransfer.vue';
@@ -30,16 +28,16 @@
   export default {
     name: 'Settings',
     components: { AddPoint, BackgroundImage, DataTransfer, PointsList, SearchPoints },
-    setup() {
-      return { store: useStore() }
-    },
+    inject: ['wheelStore'],
     methods: {
       addPoint(newPoint) {
-        this.store.addVariant(newPoint);
+        this.wheelStore.addVariant(newPoint);
       },
       importData(e) {
         const { files } = e.target;
         const configFile = files[0];
+
+        if (!configFile) return;
 
         if (configFile.type !== 'application/json') {
           return alert('Импортируемый файл должен быть с расширением .json');
@@ -66,7 +64,7 @@
           }
 
           if (confirm('Внимание! В результате импорта ВСЕ текущие данные будут перезаписаны. Вы согласны?')) {
-            this.store.setNewVariants(result.data);
+            this.wheelStore.setNewVariants(result.data);
             alert('Данные успешно импортированы!');
           }
         };
@@ -76,7 +74,7 @@
         };
       },
       exportData() {
-        const currentItems = this.store.state.value.variants;
+        const currentItems = this.wheelStore.state.value.variants;
 
         const config = createConfig(currentItems);
         const blob = new Blob([JSON.stringify(config)], { type: 'application/json' });
