@@ -2,7 +2,7 @@
   <div :class="$style.wrapper">
     <Simplebar>
       <div :class="$style.inner">
-        <div v-for="(item, index) in list" :class="$style.listItem">
+        <div v-for="item in list" :class="$style.listItem">
 
           <Point>{{ item.value }}</Point>
 
@@ -12,7 +12,7 @@
               view="squared"
               :class="$style.button"
               ref="button"
-              @click="removePoint(index)"
+              @click="removePoint(item.id)"
             >
               <div :class="$style.icon">
                 <Trash/>
@@ -41,8 +41,8 @@
       }
     },
     methods: {
-      removePoint(index) {
-        this.$emit('remove-point', index);
+      removePoint(id) {
+        this.$emit('remove-point', id);
       },
     },
   };

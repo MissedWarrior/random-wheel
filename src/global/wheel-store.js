@@ -7,6 +7,10 @@ const key = 'roulette-data';
 
 const getSavedData = () => parseSavedData(getStorageItem(key), key);
 
+const generateId = function () {
+  return '_' + Date.now().toString(36).substr(2, 9);
+};
+
 const state = ref({
   variants: getSavedData(),
 });
@@ -27,13 +31,16 @@ watch([state.value], () => {
 
 const addVariant = newVariant => {
   const newItem = {
+    id: generateId(),
     value: newVariant,
   };
 
   state.value.variants.unshift(newItem);
 };
 
-const removeVariant = index => {
+const removeVariant = id => {
+  const index = state.value.variants.findIndex(item => item.id === id);
+
   state.value.variants.splice(index, 1);
 }
 

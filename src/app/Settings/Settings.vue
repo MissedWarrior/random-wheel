@@ -6,7 +6,10 @@
     <SearchPoints/>
   </div>
   <div :class="$style.pointsList">
-    <PointsList :list="wheelStore.state.value.variants" @remove-point="removePoint"/>
+    <PointsList
+      :list="wheelStore.state.value.variants"
+      @remove-point="removePoint"
+    />
   </div>
   <div :class="$style.dataTransfer">
     <DataTransfer @import-data="importData" @export-data="exportData"/>
@@ -33,8 +36,8 @@
       addPoint(newPoint) {
         this.wheelStore.addVariant(newPoint);
       },
-      removePoint(index) {
-        this.wheelStore.removeVariant(index);
+      removePoint(id) {
+        this.wheelStore.removeVariant(id);
       },
       importData(e) {
         const { files } = e.target;
