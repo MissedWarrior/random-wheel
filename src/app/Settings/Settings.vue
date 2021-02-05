@@ -6,7 +6,7 @@
     <SearchPoints/>
   </div>
   <div :class="$style.pointsList">
-    <PointsList/>
+    <PointsList :list="wheelStore.state.value.variants" @remove-point="removePoint"/>
   </div>
   <div :class="$style.dataTransfer">
     <DataTransfer @import-data="importData" @export-data="exportData"/>
@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
   import { createConfig, validateConfig } from '/@/utils/data-workflow';
 
   import AddPoint from './AddPoint.vue';
@@ -33,6 +33,9 @@
       addPoint(newPoint) {
         this.wheelStore.addVariant(newPoint);
       },
+      removePoint(index) {
+        this.wheelStore.removeVariant(index);
+      },
       importData(e) {
         const { files } = e.target;
         const configFile = files[0];
@@ -48,11 +51,10 @@
         fileReader.readAsText(configFile);
 
         fileReader.onload = () => {
-
-          let result: object;
+          let result;
 
           try {
-            result = JSON.parse(fileReader.result as string);
+            result = JSON.parse(fileReader.result);
           } catch (e) {
             return alert('Не удалось импортировать схему: данные повреждены.');
           }
@@ -84,7 +86,7 @@
         link.href = URL.createObjectURL(blob);
 
         link.click();
-      }
+      },
     }
   };
 </script>

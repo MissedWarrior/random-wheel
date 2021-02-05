@@ -1,5 +1,8 @@
 <template>
-  <button :class="[$style.button, $style[$props.appearance]]" v-bind="$attrs">
+  <button
+    :class="[$style.button, $style[$props.appearance], $style[$props.view]]"
+    v-bind="$attrs"
+  >
     <slot/>
   </button>
 </template>
@@ -12,9 +15,16 @@
         type: String,
         default: 'primary',
         validator(val) {
-          return ['primary', 'secondary'].indexOf(val) !== -1;
+          return ['primary', 'secondary', 'danger'].indexOf(val) !== -1;
         },
       },
+      view: {
+        type: String,
+        default: 'default',
+        validator(val) {
+          return ['default', 'squared'].indexOf(val) !== -1;
+        }
+      }
     }
   };
 </script>
@@ -43,12 +53,21 @@
     }
   }
 
+  .danger {
+    border: 1px solid var(--error);
+    background-color: var(--primary-text);
+    color: var(--error);
+
+    &:hover {
+      background-color: var(--error-dark);
+      border-color: var(--error-dark);
+      color: var(--primary-text);
+    }
+  }
+
   .button {
     appearance: none;
-    height: 28px;
-    line-height: 14px;
     border-radius: 3px;
-    padding: 6px 12px;
     transition: 0.3s;
     cursor: pointer;
     user-select: none;
@@ -58,5 +77,18 @@
       background-color: var(--disabled);
       cursor: not-allowed;
     }
+  }
+
+  .default {
+    padding: 6px 12px;
+    height: 28px;
+    line-height: 14px;
+  }
+
+  .squared {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6px;
   }
 </style>

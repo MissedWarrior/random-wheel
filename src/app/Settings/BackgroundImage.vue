@@ -1,5 +1,10 @@
 <template>
-  BackgroundImage
+  <div>
+    BackgroundImage
+  </div>
+  <div>
+    Coming soon (c)
+  </div>
 </template>
 
 <script>

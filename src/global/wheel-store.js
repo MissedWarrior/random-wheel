@@ -33,9 +33,14 @@ const addVariant = newVariant => {
   state.value.variants.unshift(newItem);
 };
 
+const removeVariant = index => {
+  state.value.variants.splice(index, 1);
+}
+
 export const wheelStore = {
   state: readonly(state),
   addVariant,
   regenerateStore,
   setNewVariants,
+  removeVariant,
 };
