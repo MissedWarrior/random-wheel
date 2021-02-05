@@ -16,7 +16,7 @@ export const createConfig = (data) => {
 /**
  * @param data {String}
  * @param key {String}
- * @return {Array<Object>}
+ * @return {Array<{ id: String, value: String }>}
  */
 export const parseSavedData = (data, key) => {
   try {

@@ -53,6 +53,7 @@
     height: 300px;
     overflow: auto;
     border: 2px solid var(--border);
+    box-shadow: 0 0 3px rgba(0,0,0,0.5) inset;
   }
 
   .inner {
@@ -60,7 +61,7 @@
   }
 
   .list-item {
-    margin-bottom: 10px;
+    margin-bottom: 13px;
     display: flex;
     font-size: 1rem;
 

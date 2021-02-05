@@ -1,5 +1,5 @@
 <template>
-  <input v-bind="$attrs" :type="$attrs.type" v-model="value">
+  <input v-bind="$attrs" :type="$attrs.type" v-model="value" :class="$style.input">
 </template>
 
 <script>
@@ -21,5 +21,7 @@
 </script>
 
 <style module lang="scss">
-
+  .input {
+    width: 100%;
+  }
 </style>

@@ -8,7 +8,6 @@
         <Input
           id="addPoint"
           name="addPoint"
-          :class="$style.input"
           v-model.trim="newPoint"
           autocomplete="off"
         />
@@ -39,7 +38,7 @@
           this.newPoint = '';
         }
       },
-    }
+    },
   };
 </script>
 
@@ -66,10 +65,6 @@
   }
 
   .input-wrapper {
-    width: 100%;
-  }
-
-  .input {
     width: 100%;
   }
 </style>

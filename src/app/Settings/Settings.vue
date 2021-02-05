@@ -3,11 +3,11 @@
     <AddPoint @add-point="addPoint"/>
   </div>
   <div :class="$style.searchPoints">
-    <SearchPoints/>
+    <SearchPoints @search="handleSearch"/>
   </div>
   <div :class="$style.pointsList">
     <PointsList
-      :list="wheelStore.state.value.variants"
+      :list="resultList"
       @remove-point="removePoint"
     />
   </div>
@@ -32,12 +32,31 @@
     name: 'Settings',
     components: { AddPoint, BackgroundImage, DataTransfer, PointsList, SearchPoints },
     inject: ['wheelStore'],
+    data() {
+      return {
+        searchValue: '',
+      };
+    },
+    computed: {
+      resultList() {
+        if (this.searchValue.length > 0) {
+          return this.wheelStore.state.value.variants.filter(item => {
+            return item.value.includes(this.searchValue);
+          });
+        }
+
+        return this.wheelStore.state.value.variants;
+      },
+    },
     methods: {
       addPoint(newPoint) {
         this.wheelStore.addVariant(newPoint);
       },
       removePoint(id) {
         this.wheelStore.removeVariant(id);
+      },
+      handleSearch(val) {
+        this.searchValue = val;
       },
       importData(e) {
         const { files } = e.target;
@@ -90,7 +109,7 @@
 
         link.click();
       },
-    }
+    },
   };
 </script>
 
