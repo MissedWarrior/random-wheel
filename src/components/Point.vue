@@ -18,5 +18,6 @@
     display: inline-flex;
     align-items: center;
     width: 100%;
+    background-color: transparent;
   }
 </style>

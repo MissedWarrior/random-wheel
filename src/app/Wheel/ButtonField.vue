@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Button @click="$emit('activate-wheel')" :disabled="rouletteList.length === 0">
+    <Button @click="$emit('activate-wheel')" :disabled="rouletteList.length === 0 || disabled">
       Запустить рулетку!
     </Button>
   </div>
@@ -16,7 +16,11 @@
       rouletteList: {
         type: Array,
         required: true,
-      }
+      },
+      disabled: {
+        type: Boolean,
+        default: false,
+      },
     },
   };
 </script>
