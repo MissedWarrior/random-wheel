@@ -30,6 +30,7 @@
       return {
         isWheelActive: false,
         currentIndex: 0,
+        timerId: 0,
       };
     },
     computed: {
@@ -52,23 +53,31 @@
     methods: {
       activateWheel() {
         const list = this.wheelStore.state.value.variants;
-        const listLength = list.length;
         this.currentIndex = this.randomInteger(0, list.length - 1);
 
-        const intervalId = setInterval(() => {
+        this.timerId = this.rotateWheel();
 
-          if (this.currentIndex < listLength) {
-            this.currentIndex += 1;
-          } else if (this.currentIndex === listLength) {
-            this.currentIndex = 0;
+        setTimeout(() => {
+          clearInterval(this.timerId);
+        }, 3000);
+      },
+      rotateWheel() {
+        const ms = 200;
+        const self = this;
+
+        return setTimeout(function tick() {
+          const list = self.wheelStore.state.value.variants;
+
+          if (self.currentIndex < list.length) {
+            self.currentIndex += 1;
+          } else if (self.currentIndex === list.length) {
+            self.currentIndex = 0;
           } else {
             throw new Error('Array is out of bounds');
           }
-        }, 200);
 
-        setTimeout(() => {
-          clearInterval(intervalId);
-        }, 5000);
+          self.timerId = setTimeout(tick, ms);
+        }, ms);
       },
       randomInteger(min, max) {
         const rand = min + Math.random() * (max + 1 - min);
