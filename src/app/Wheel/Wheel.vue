@@ -30,7 +30,12 @@
 
   import ButtonField from './ButtonField.vue';
 
+  import audioUrl from '/@/assets/sounds/volchok.mp3';
+
   const visibleVariantsAmount = 5;
+
+  const wheelRunningAudio = new Audio(audioUrl);
+  wheelRunningAudio.volume = 0.3;
 
   export default {
     name: 'Wheel',
@@ -71,17 +76,22 @@
         this.isWheelActive = true;
         this.winner = null;
 
+        wheelRunningAudio.play();
+
+        const animationDurationsMs = wheelRunningAudio.duration * 1000;
+
         this.timerId = this.rotateWheel();
 
         setTimeout(() => {
           clearInterval(this.timerId);
           this.isWheelActive = false;
           this.winner = this.rouletteList[Math.floor(visibleVariantsAmount / 2)].value;
-        }, 3000);
+        }, animationDurationsMs);
       },
       rotateWheel() {
-        const ms = 200;
         const self = this;
+        let ms = 100;
+        const { duration } = wheelRunningAudio;
 
         return setTimeout(function tick() {
           const list = self.wheelStore.state.value.variants;
@@ -92,6 +102,16 @@
             self.currentIndex = 0;
           } else {
             throw new Error('Array is out of bounds');
+          }
+
+          const { currentTime } = wheelRunningAudio;
+
+          if (currentTime > duration * 0.85) {
+            ms = 400;
+          } else if (currentTime > duration * 0.7) {
+            ms = 200;
+          } else {
+            ms = self.randomInteger(80, 120);
           }
 
           self.timerId = setTimeout(tick, ms);
