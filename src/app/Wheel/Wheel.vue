@@ -1,22 +1,26 @@
 <template>
   <div :class="$style.wrapper">
     <div :class="$style.wheelWrapper">
+
       <template v-if="rouletteList.length > 0">
         <div v-for="item in rouletteList" :class="$style.point">
           <div :class="item.class">
-            <Point>{{ item.value }}</Point>
+            <Point overflow-style="hide" :title="item.value" force-title>{{ item.value }}</Point>
           </div>
         </div>
       </template>
+
       <div v-else>
         Список пуст
       </div>
+
     </div>
 
     <ButtonField
       :disabled="isWheelActive"
       @activate-wheel="activateWheel"
       :roulette-list="rouletteList"
+      :winner="winner"
     />
   </div>
 </template>
@@ -37,6 +41,7 @@
         isWheelActive: false,
         currentIndex: 0,
         timerId: 0,
+        winner: null,
       };
     },
     computed: {
@@ -64,12 +69,14 @@
         const list = this.wheelStore.state.value.variants;
         this.currentIndex = this.randomInteger(0, list.length - 1);
         this.isWheelActive = true;
+        this.winner = null;
 
         this.timerId = this.rotateWheel();
 
         setTimeout(() => {
           clearInterval(this.timerId);
           this.isWheelActive = false;
+          this.winner = this.rouletteList[Math.floor(visibleVariantsAmount / 2)].value;
         }, 3000);
       },
       rotateWheel() {
@@ -79,9 +86,9 @@
         return setTimeout(function tick() {
           const list = self.wheelStore.state.value.variants;
 
-          if (self.currentIndex < list.length) {
+          if (self.currentIndex < list.length - 1) {
             self.currentIndex += 1;
-          } else if (self.currentIndex === list.length) {
+          } else if (self.currentIndex === list.length - 1) {
             self.currentIndex = 0;
           } else {
             throw new Error('Array is out of bounds');

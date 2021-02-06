@@ -2,9 +2,11 @@
   <div :class="$style.wrapper">
     <Simplebar>
       <div :class="$style.inner">
-        <div v-for="item in list" :class="$style.listItem">
+        <div v-for="item in list" :class="$style.listItem" :key="item.id">
 
-          <Point>{{ item.value }}</Point>
+          <div :class="$style.point">
+            <Point overflow-style="break">{{ item.value }}</Point>
+          </div>
 
           <div :class="$style.iconWrapper">
             <Button
@@ -83,5 +85,10 @@
     width: 2rem;
     display: flex;
     align-items: center;
+  }
+
+  .point {
+    width: 100%;
+    max-width: calc(100% - 3rem - 15px);
   }
 </style>
