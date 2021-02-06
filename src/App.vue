@@ -1,9 +1,11 @@
 <template>
   <div :class="$style.app">
     <Header @open-modal="isModalOpen = true"/>
+
     <div :class="$style.main">
-      <Button appearance="secondary">Test</Button>
+      <Wheel/>
     </div>
+
     <Footer/>
 
     <teleport to="body">
@@ -22,12 +24,13 @@
   import Footer from '/@/layout/Footer.vue';
 
   import Settings from '/@/app/Settings/Settings.vue';
+  import Wheel from '/@/app/Wheel/Wheel.vue';
 
   import { wheelStore } from '/@/global/wheel-store';
 
   export default {
     name: 'App',
-    components: { Modal, Footer, Header, Button, Settings },
+    components: { Wheel, Modal, Footer, Header, Button, Settings },
     data() {
       return {
         isModalOpen: false,
@@ -48,5 +51,10 @@
 
   .main {
     flex: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 </style>
