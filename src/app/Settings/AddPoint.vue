@@ -10,6 +10,7 @@
           name="addPoint"
           v-model.trim="newPoint"
           autocomplete="off"
+          ref="input"
         />
       </div>
     </div>
@@ -36,6 +37,7 @@
         if (this.newPoint?.length > 0) {
           this.$emit('add-point', this.newPoint);
           this.newPoint = '';
+          this.$refs.input.$el.focus();
         }
       },
     },
