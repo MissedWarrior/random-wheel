@@ -5,7 +5,14 @@
       <template v-if="rouletteList.length > 0">
         <div v-for="item in rouletteList" :class="$style.point">
           <div :class="item.class">
-            <Point overflow-style="hide" :title="item.value" force-title>{{ item.value }}</Point>
+            <Point
+              overflow-style="hide"
+              :title="item.value"
+              force-title
+              align="center"
+            >
+              {{ item.value }}
+            </Point>
           </div>
         </div>
       </template>

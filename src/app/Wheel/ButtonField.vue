@@ -1,8 +1,10 @@
 <template>
   <div :class="$style.wrapper">
     <div v-if="winner" :class="$style.winner">
-      {{ `Победил вариант ` }}
-      <span :class="$style.bold">{{ `"${ winner }"!` }}</span>
+      <div>
+        {{ `Победил вариант ` }}
+      </div>
+      <div :class="$style.winnerText">{{ `"${ winner }"!` }}</div>
     </div>
 
     <div>
@@ -48,9 +50,13 @@
     margin-bottom: 20px;
     hyphens: auto;
     word-break: break-word;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
   }
 
-  .bold {
+  .winner-text {
     font-weight: bold;
+    text-align: center;
   }
 </style>

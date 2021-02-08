@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.wrapper" ref="wrapper">
+  <div :class="[$style.wrapper, $style[align]]" ref="wrapper">
     <div :class="$style[overflowStyle]" :title="title" ref="inner">
       <slot/>
     </div>
@@ -23,6 +23,13 @@
       },
       title: {
         type: String,
+      },
+      align: {
+        type: String,
+        default: 'left',
+        validator(val) {
+          return ['left', 'center', 'right'].indexOf(val) !== -1;
+        }
       }
     },
   };
@@ -52,5 +59,17 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .left {
+    justify-content: flex-start;
+  }
+
+  .center {
+    justify-content: center;
+  }
+
+  .right {
+    justify-content: flex-end;
   }
 </style>
