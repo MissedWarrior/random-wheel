@@ -11,5 +11,8 @@ export default {
   base: '/random-wheel/',
   alias: {
     '/@': path.resolve(__dirname, './src')
-  }
+  },
+  define: {
+    BUNDLED_ON: Date.now(),
+  },
 };

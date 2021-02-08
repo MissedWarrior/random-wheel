@@ -38,7 +38,10 @@
     },
     provide: {
       wheelStore,
-    }
+    },
+    mounted() {
+      console.log(`Built at ${ new Date(BUNDLED_ON) }`);
+    },
   };
 </script>
 
