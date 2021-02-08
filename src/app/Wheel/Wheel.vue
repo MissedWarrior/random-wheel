@@ -30,12 +30,16 @@
 
   import ButtonField from './ButtonField.vue';
 
-  import audioUrl from '/@/assets/sounds/volchok.mp3';
+  import audioUrl from '/@/assets/sounds/lalahey.mp3';
 
   const visibleVariantsAmount = 5;
 
   const wheelRunningAudio = new Audio(audioUrl);
-  wheelRunningAudio.volume = 0.3;
+  const initialSoundVolume = 0.07;
+  const firstCutVolume = 0.06;
+  const secondCutVolume = 0.04;
+
+  wheelRunningAudio.volume = 0.07;
 
   export default {
     name: 'Wheel',
@@ -85,6 +89,7 @@
         setTimeout(() => {
           clearInterval(this.timerId);
           this.isWheelActive = false;
+          wheelRunningAudio.volume = initialSoundVolume;
           this.winner = this.rouletteList[Math.floor(visibleVariantsAmount / 2)].value;
         }, animationDurationsMs);
       },
@@ -107,8 +112,10 @@
           const { currentTime } = wheelRunningAudio;
 
           if (currentTime > duration * 0.85) {
+            wheelRunningAudio.volume = secondCutVolume;
             ms = 400;
           } else if (currentTime > duration * 0.7) {
+            wheelRunningAudio.volume = firstCutVolume;
             ms = 200;
           } else {
             ms = self.randomInteger(80, 120);
