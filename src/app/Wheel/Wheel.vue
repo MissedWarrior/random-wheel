@@ -63,7 +63,7 @@
     computed: {
       rouletteList() {
         const start = this.currentIndex;
-        const list = this.wheelStore.state.value.variants;
+        const list = this.wheelStore.getActiveList();
 
         if (list.length > 0) {
           const result = [];
@@ -82,7 +82,7 @@
     },
     methods: {
       activateWheel() {
-        const list = this.wheelStore.state.value.variants;
+        const list = this.wheelStore.getActiveList();
         this.currentIndex = this.randomInteger(0, list.length - 1);
         this.isWheelActive = true;
         this.winner = null;
@@ -104,9 +104,10 @@
         const self = this;
         let ms = 100;
         const { duration } = wheelRunningAudio;
+        const list = this.wheelStore.getActiveList();
 
         return setTimeout(function tick() {
-          const list = self.wheelStore.state.value.variants;
+          self.timerId = setTimeout(tick, ms);
 
           if (self.currentIndex < list.length - 1) {
             self.currentIndex += 1;
@@ -125,10 +126,8 @@
             wheelRunningAudio.volume = firstCutVolume;
             ms = 200;
           } else {
-            ms = self.randomInteger(80, 120);
+            ms = 100;
           }
-
-          self.timerId = setTimeout(tick, ms);
         }, ms);
       },
       assignClass(item, i) {

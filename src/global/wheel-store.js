@@ -21,6 +21,9 @@ const regenerateStore = () => {
   };
 };
 
+/**
+ * @param variants {Array<{id: String, value: String}>}
+ */
 const setNewVariants = variants => {
   state.value.variants = variants;
 };
@@ -29,6 +32,9 @@ watch([state.value], () => {
   setStorageItem(key, JSON.stringify(state.value.variants));
 });
 
+/**
+ * @param newVariant {String}
+ */
 const addVariant = newVariant => {
   const newItem = {
     id: generateId(),
@@ -38,11 +44,21 @@ const addVariant = newVariant => {
   state.value.variants.unshift(newItem);
 };
 
+/**
+ * @param id {String}
+ */
 const removeVariant = id => {
   const index = state.value.variants.findIndex(item => item.id === id);
 
   state.value.variants.splice(index, 1);
-}
+};
+
+/**
+ * @return {ReadonlyArray<{id: String, value: String}>}
+ */
+const getActiveList = () => {
+  return readonly(state.value.variants);
+};
 
 export const wheelStore = {
   state: readonly(state),
@@ -50,4 +66,5 @@ export const wheelStore = {
   regenerateStore,
   setNewVariants,
   removeVariant,
+  getActiveList,
 };

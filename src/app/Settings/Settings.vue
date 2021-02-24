@@ -39,13 +39,15 @@
     },
     computed: {
       resultList() {
+        const list = this.wheelStore.getActiveList();
+
         if (this.searchValue.length > 0) {
-          return this.wheelStore.state.value.variants.filter(item => {
+          return list.filter(item => {
             return item.value.includes(this.searchValue);
           });
         }
 
-        return this.wheelStore.state.value.variants;
+        return list;
       },
     },
     methods: {
@@ -98,7 +100,7 @@
         };
       },
       exportData() {
-        const currentItems = this.wheelStore.state.value.variants;
+        const currentItems = this.wheelStore.getActiveList();
 
         const config = createConfig(currentItems);
         const blob = new Blob([JSON.stringify(config)], { type: 'application/json' });
