@@ -9,8 +9,15 @@ import vue from '@vitejs/plugin-vue';
 export default {
   plugins: [vue()],
   base: '/random-wheel/',
-  alias: {
-    '/@': path.resolve(__dirname, './src')
+  resolve: {
+    alias: {
+      '/@': path.resolve(__dirname, './src')
+    },
+  },
+  css: {
+    modules: {
+      localsConvention: 'camelCaseOnly',
+    },
   },
   define: {
     BUNDLED_ON: Date.now(),

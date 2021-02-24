@@ -35,9 +35,9 @@
 <script>
   import Point from '/@/components/Point.vue';
 
-  import ButtonField from './ButtonField.vue';
-
   import audioUrl from '/@/assets/sounds/lalahey.mp3';
+
+  import ButtonField from './ButtonField.vue';
 
   const visibleVariantsAmount = 5;
 

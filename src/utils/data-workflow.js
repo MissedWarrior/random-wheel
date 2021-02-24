@@ -46,7 +46,10 @@ export const validateConfig = config => {
   if (Array.isArray(config.data)) {
     const isDataValid = config.data.every(item => Boolean(item.value));
 
-    return isDataValid ? { isValid: true } : { isValid: false, reason: 'Сохранённый список повреждён' }
+    return isDataValid ? { isValid: true } : {
+      isValid: false,
+      reason: 'Сохранённый список повреждён'
+    };
   }
 
   return {
