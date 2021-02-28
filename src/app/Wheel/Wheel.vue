@@ -37,6 +37,8 @@
 
   import audioUrl from '/@/assets/sounds/lalahey.mp3';
 
+  import { useRandom } from '/@/composables/useRandom';
+
   import ButtonField from './ButtonField.vue';
 
   const visibleVariantsAmount = 5;
@@ -51,7 +53,12 @@
   export default {
     name: 'Wheel',
     components: { Point, ButtonField },
-    inject: ['wheelStore', 'randomizer'],
+    inject: ['wheelStore'],
+    setup() {
+      const { rng, state } = useRandom('roulette-seed');
+
+      return { randomizer: { rng, state } };
+    },
     data() {
       return {
         isWheelActive: false,
