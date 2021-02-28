@@ -26,7 +26,7 @@
   import Settings from '/@/app/Settings/Settings.vue';
   import Wheel from '/@/app/Wheel/Wheel.vue';
 
-  import { wheelStore } from '/@/global/wheel-store';
+  import { wheelStore, randomizer } from '/@/global';
 
   export default {
     name: 'App',
@@ -38,6 +38,7 @@
     },
     provide: {
       wheelStore,
+      randomizer,
     },
     mounted() {
       console.log(`Built at ${ new Date(BUNDLED_ON) }`);

@@ -51,7 +51,7 @@
   export default {
     name: 'Wheel',
     components: { Point, ButtonField },
-    inject: ['wheelStore'],
+    inject: ['wheelStore', 'randomizer'],
     data() {
       return {
         isWheelActive: false,
@@ -114,7 +114,7 @@
           } else if (self.currentIndex === list.length - 1) {
             self.currentIndex = 0;
           } else {
-            throw new Error('Array is out of bounds');
+            throw new Error(`Array is out of bounds, tried to get ${ self.currentIndex } while max index is ${ list.length - 1 }`);
           }
 
           const { currentTime } = wheelRunningAudio;
@@ -152,7 +152,7 @@
         return itemClone;
       },
       randomInteger(min, max) {
-        const rand = min + Math.random() * (max + 1 - min);
+        const rand = min + this.randomizer.rng() * (max + 1 - min);
 
         return Math.floor(rand);
       },

@@ -7,7 +7,7 @@ const key = 'roulette-data';
 
 const getSavedData = () => parseSavedData(getStorageItem(key), key);
 
-const generateId = function () {
+const generateId = () => {
   return '_' + Date.now().toString(36).substr(2, 9);
 };
 

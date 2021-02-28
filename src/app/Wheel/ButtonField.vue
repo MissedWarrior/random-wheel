@@ -8,7 +8,11 @@
     </div>
 
     <div>
-      <Button @click="$emit('activate-wheel')" :disabled="rouletteList.length === 0 || disabled">
+      <Button
+        @click="$emit('activate-wheel')"
+        :disabled="rouletteList.length === 0 || disabled"
+        data-test-id="activate-wheel"
+      >
         Запустить рулетку!
       </Button>
     </div>
