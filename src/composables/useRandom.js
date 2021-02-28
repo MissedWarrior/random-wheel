@@ -46,6 +46,7 @@ export const useRandom = key => {
 
       if (value) {
         generator = seedrandom(value);
+        seedStore.value.seed = value;
       }
     }
   };
@@ -56,11 +57,8 @@ export const useRandom = key => {
     generator.next();
   }
 
-  let iter = 0;
-
   const rng = () => {
     seedStore.value.count += 1;
-    iter++;
 
     if (seedStore.value.count >= 200) {
       seedStore.value.count = 0;
