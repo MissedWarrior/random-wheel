@@ -37,7 +37,7 @@
 
   import audioUrl from '/@/assets/sounds/lalahey.mp3';
 
-  import { useRandom } from '/@/composables/useRandom';
+  import { useRandom } from '/@/composables/use-random';
 
   import ButtonField from './ButtonField.vue';
 

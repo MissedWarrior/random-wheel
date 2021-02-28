@@ -34,9 +34,11 @@ export const useRandom = key => {
 
   const seedStore = ref(storageData ? storageData : { ...getStoreTemplate() });
 
-  watch(seedStore.value, () => {
-    setStorageItem(key, JSON.stringify(seedStore.value));
-  });
+  if (key) {
+    watch(seedStore.value, () => {
+      setStorageItem(key, JSON.stringify(seedStore.value));
+    });
+  }
 
   const generateRandom = function* () {
     let generator = seedrandom(seedStore.value.seed);
