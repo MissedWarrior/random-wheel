@@ -24,19 +24,19 @@
     </div>
 
     <ButtonField
-      :disabled="isWheelActive"
+      :disabled="wheelState.isWheelActive"
       @activate-wheel="activateWheel"
       :roulette-list="rouletteList"
-      :winner="winner"
+      :winner="wheelState.winner"
     />
   </div>
 </template>
 
-<script>
+<script setup name="Wheel">
+  import { reactive, computed, inject, useCssModule } from 'vue';
+
   import Point from '/@/components/Point.vue';
-
   import audioUrl from '/@/assets/sounds/lalahey.mp3';
-
   import { useRandom } from '/@/composables/use-random';
 
   import ButtonField from './ButtonField.vue';
@@ -50,120 +50,113 @@
 
   wheelRunningAudio.volume = 0.07;
 
-  export default {
-    name: 'Wheel',
-    components: { Point, ButtonField },
-    inject: ['wheelStore'],
-    setup() {
-      const { rng, state } = useRandom('roulette-seed');
+  const { rng } = useRandom('roulette-seed');
 
-      return { randomizer: { rng, state } };
-    },
-    data() {
-      return {
-        isWheelActive: false,
-        currentIndex: 0,
-        timerId: 0,
-        winner: null,
-      };
-    },
-    computed: {
-      rouletteList() {
-        const start = this.currentIndex;
-        const list = this.wheelStore.getActiveList();
+  const wheelState = reactive({
+    isWheelActive: false,
+    currentIndex: 0,
+    timerId: 0,
+    winner: null,
+  });
 
-        if (list.length > 0) {
-          const result = [];
-          for (let i = 0; i < visibleVariantsAmount; i++) {
-            const item = list[(start + i) % list.length];
-            const coloredItem = this.assignClass(item, i);
+  const wheelStore = inject('wheelStore');
+  const style = useCssModule();
 
-            result.push(coloredItem);
-          }
+  const rouletteList = computed(() => {
+    const start = wheelState.currentIndex;
+    const list = wheelStore.getActiveList();
 
-          return result;
-        }
+    if (list.length > 0) {
+      const result = [];
+      for (let i = 0; i < visibleVariantsAmount; i++) {
+        const item = list[(start + i) % list.length];
+        const coloredItem = assignClass(item, i);
 
-        return [];
-      },
-    },
-    methods: {
-      activateWheel() {
-        const list = this.wheelStore.getActiveList();
-        this.currentIndex = this.randomInteger(0, list.length - 1);
-        this.isWheelActive = true;
-        this.winner = null;
+        result.push(coloredItem);
+      }
 
-        wheelRunningAudio.play();
+      return result;
+    }
 
-        const animationDurationsMs = wheelRunningAudio.duration * 1000;
+    return [];
+  });
 
-        this.timerId = this.rotateWheel();
+  const randomInteger = (min, max) => {
+    const rand = min + rng() * (max + 1 - min);
 
-        setTimeout(() => {
-          clearInterval(this.timerId);
-          this.isWheelActive = false;
-          wheelRunningAudio.volume = initialSoundVolume;
-          this.winner = this.rouletteList[Math.floor(visibleVariantsAmount / 2)].value;
-        }, animationDurationsMs);
-      },
-      rotateWheel() {
-        const self = this;
-        let ms = 100;
-        const { duration } = wheelRunningAudio;
-        const list = this.wheelStore.getActiveList();
+    return Math.floor(rand);
+  };
 
-        return setTimeout(function tick() {
-          self.timerId = setTimeout(tick, ms);
+  const activateWheel = () => {
+    const list = wheelStore.getActiveList();
+    wheelState.currentIndex = randomInteger(0, list.length - 1);
+    wheelState.isWheelActive = true;
+    wheelState.winner = null;
 
-          if (self.currentIndex < list.length - 1) {
-            self.currentIndex += 1;
-          } else if (self.currentIndex === list.length - 1) {
-            self.currentIndex = 0;
-          } else {
-            throw new Error(`Array is out of bounds, tried to get ${ self.currentIndex } while max index is ${ list.length - 1 }`);
-          }
+    wheelRunningAudio.play();
 
-          const { currentTime } = wheelRunningAudio;
+    const animationDurationsMs = wheelRunningAudio.duration * 1000;
 
-          if (currentTime > duration * 0.85) {
-            wheelRunningAudio.volume = secondCutVolume;
-            ms = 400;
-          } else if (currentTime > duration * 0.7) {
-            wheelRunningAudio.volume = firstCutVolume;
-            ms = 200;
-          } else {
-            ms = 100;
-          }
-        }, ms);
-      },
-      assignClass(item, i) {
-        const itemClone = { ...item };
+    wheelState.timerId = rotateWheel();
 
-        switch (i) {
-          case 0:
-          case visibleVariantsAmount - 1: {
-            itemClone.class = this.$style.edge;
-            break;
-          }
-          case Math.floor(visibleVariantsAmount / 2): {
-            itemClone.class = this.$style.central;
-            break;
-          }
-          default: {
-            itemClone.class = this.$style.middle;
-            break;
-          }
-        }
+    setTimeout(() => {
+      clearInterval(wheelState.timerId);
+      wheelState.isWheelActive = false;
+      wheelRunningAudio.volume = initialSoundVolume;
+      wheelState.winner = rouletteList.value[Math.floor(visibleVariantsAmount / 2)].value;
+    }, animationDurationsMs);
+  };
 
-        return itemClone;
-      },
-      randomInteger(min, max) {
-        const rand = min + this.randomizer.rng() * (max + 1 - min);
+  const assignClass = (item, i) => {
+    const itemClone = { ...item };
 
-        return Math.floor(rand);
-      },
-    },
+    switch (i) {
+      case 0:
+      case visibleVariantsAmount - 1: {
+        itemClone.class = style.edge;
+        break;
+      }
+      case Math.floor(visibleVariantsAmount / 2): {
+        itemClone.class = style.central;
+        break;
+      }
+      default: {
+        itemClone.class = style.middle;
+        break;
+      }
+    }
+
+    return itemClone;
+  };
+
+  const rotateWheel = () => {
+    let ms = 100;
+    const { duration } = wheelRunningAudio;
+    const list = wheelStore.getActiveList();
+
+    return setTimeout(function tick() {
+      wheelState.timerId = setTimeout(tick, ms);
+
+      if (wheelState.currentIndex < list.length - 1) {
+        wheelState.currentIndex += 1;
+      } else if (wheelState.currentIndex === list.length - 1) {
+        wheelState.currentIndex = 0;
+      } else {
+        throw new Error(`Array is out of bounds, tried to get ${ wheelState.currentIndex } while max index is ${ list.length - 1 }`);
+      }
+
+      const { currentTime } = wheelRunningAudio;
+
+      if (currentTime > duration * 0.85) {
+        wheelRunningAudio.volume = secondCutVolume;
+        ms = 400;
+      } else if (currentTime > duration * 0.7) {
+        wheelRunningAudio.volume = firstCutVolume;
+        ms = 200;
+      } else {
+        ms = 100;
+      }
+    }, ms);
   };
 </script>
 
