@@ -6,7 +6,9 @@
   export default {
     name: 'Input',
     props: ['modelValue'],
-    emits: ['update:modelValue'],
+    emits: {
+      'update:modelValue': payload => typeof payload === 'string',
+    },
     computed: {
       value: {
         get() {

@@ -19,6 +19,9 @@
         },
       },
     },
+    emits: {
+      upload: payload => payload instanceof Event,
+    },
     methods: {
       uploadFile(e) {
         this.$emit('upload', e)
