@@ -24,9 +24,8 @@
     </div>
 
     <ButtonField
-      :disabled="isWheelActive"
+      :disabled="isWheelActive || rouletteList.length === 0"
       @activate-wheel="activateWheel"
-      :roulette-list="rouletteList"
       :winner="winner"
     />
   </div>

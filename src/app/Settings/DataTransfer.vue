@@ -26,6 +26,10 @@
   export default {
     name: 'DataTransfer',
     components: { Button, InputFile },
+    emits: {
+      'import-data': event => event instanceof Event,
+      'export-data': null,
+    },
     methods: {
       importData(e) {
         this.$emit('import-data', e)

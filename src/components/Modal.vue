@@ -1,7 +1,7 @@
 <template>
-  <div :class="$style.backdrop" @click.self="$emit('close-modal')">
+  <div :class="$style.backdrop" @click.self="closeModal">
     <div :class="$style.modal">
-      <div :class="$style.closeButton" @click="$emit('close-modal')">
+      <div :class="$style.closeButton" @click="closeModal">
         <CloseIcon/>
       </div>
       <slot/>
@@ -14,7 +14,15 @@
 
   export default {
     name: 'Modal',
-    components: { CloseIcon }
+    components: { CloseIcon },
+    emits: {
+      'close-modal': null,
+    },
+    methods: {
+      closeModal() {
+        this.$emit('close-modal');
+      },
+    },
   };
 </script>
 

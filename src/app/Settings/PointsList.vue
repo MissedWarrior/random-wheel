@@ -2,8 +2,8 @@
   <div :class="$style.wrapper">
     <Simplebar>
       <div :class="$style.inner">
-        <div v-for="item in list" :class="$style.listItem" :key="item.id">
 
+        <div v-for="item in list" :class="$style.listItem" :key="item.id">
           <div :class="$style.point">
             <Point overflow-style="break">{{ item.value }}</Point>
           </div>
@@ -22,6 +22,7 @@
             </Button>
           </div>
         </div>
+
       </div>
     </Simplebar>
   </div>
@@ -36,6 +37,9 @@
   export default {
     name: 'PointsList',
     components: { Trash, Button, Point, Simplebar },
+    emits: {
+      'remove-point': id => typeof id === 'string',
+    },
     props: {
       list: {
         type: Array,
@@ -55,7 +59,7 @@
     height: 300px;
     overflow: auto;
     border: 2px solid var(--border);
-    box-shadow: 0 0 3px rgba(0,0,0,0.5) inset;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5) inset;
   }
 
   .inner {

@@ -27,6 +27,9 @@
   export default {
     name: 'AddPoint',
     components: { Button, Input },
+    emits: {
+      'add-point': point => point.length > 0,
+    },
     data() {
       return {
         newPoint: '',

@@ -5,9 +5,14 @@
 <script>
   export default {
     name: 'Input',
-    props: ['modelValue'],
     emits: {
       'update:modelValue': payload => typeof payload === 'string',
+    },
+    props: {
+      modelValue: {
+        type: String,
+        default: '',
+      },
     },
     computed: {
       value: {

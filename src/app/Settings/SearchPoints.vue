@@ -1,7 +1,7 @@
 <template>
   <label :class="$style.wrapper">
     <div :class="$style.label">Поиск по списку</div>
-    <Input @input="handleInput"/>
+    <Input v-model="updateQuery"/>
   </label>
 </template>
 
@@ -11,12 +11,24 @@
   export default {
     name: 'SearchPoints',
     components: { Input },
-    methods: {
-      handleInput(e) {
-        const { value } = e.target;
-
-        this.$emit('search', value);
-      },
+    emits: {
+      'update:query': value => typeof value === 'string',
+    },
+    props: {
+      query: {
+        type: String,
+        default: '',
+      }
+    },
+    computed: {
+      updateQuery: {
+        get() {
+          return this.query;
+        },
+        set(value) {
+          this.$emit('update:query', value);
+        }
+      }
     },
   };
 </script>

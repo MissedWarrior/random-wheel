@@ -2,15 +2,15 @@
   <div :class="$style.wrapper">
     <div v-if="winner" :class="$style.winner">
       <div>
-        {{ `Победил вариант ` }}
+        {{ 'Победил вариант ' }}
       </div>
       <div :class="$style.winnerText">{{ `"${ winner }"!` }}</div>
     </div>
 
     <div>
       <Button
-        @click="$emit('activate-wheel')"
-        :disabled="rouletteList.length === 0 || disabled"
+        @click="activateWheel"
+        :disabled="disabled"
         data-test-id="activate-wheel"
       >
         Запустить рулетку!
@@ -25,11 +25,10 @@
   export default {
     name: 'ButtonField',
     components: { Button },
+    emits: {
+      'activate-wheel': null,
+    },
     props: {
-      rouletteList: {
-        type: Array,
-        required: true,
-      },
       disabled: {
         type: Boolean,
         default: false,
@@ -37,6 +36,11 @@
       winner: {
         type: String,
       }
+    },
+    methods: {
+      activateWheel() {
+        this.$emit('activate-wheel');
+      },
     },
   };
 </script>

@@ -3,7 +3,7 @@
     <AddPoint @add-point="addPoint"/>
   </div>
   <div :class="$style.searchPoints">
-    <SearchPoints @search="handleSearch"/>
+    <SearchPoints v-model:query="searchValue"/>
   </div>
   <div :class="$style.pointsList">
     <PointsList
@@ -57,9 +57,6 @@
       },
       removePoint(id) {
         this.wheelStore.removeVariant(id);
-      },
-      handleSearch(val) {
-        this.searchValue = val;
       },
       importData(e) {
         const { files } = e.target;
