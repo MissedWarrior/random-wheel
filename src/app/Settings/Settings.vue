@@ -43,7 +43,7 @@
 
         if (this.searchValue.length > 0) {
           return list.filter(item => {
-            return item.value.includes(this.searchValue);
+            return item.value.toLowerCase().includes(this.searchValue.toLowerCase());
           });
         }
 
@@ -89,7 +89,9 @@
             alert(validationData.reason);
           }
 
-          if (confirm('Внимание! В результате импорта ВСЕ текущие данные будут перезаписаны. Вы согласны?')) {
+          const rewriteWarning = 'Внимание! В результате импорта ВСЕ текущие данные будут' +
+            ' перезаписаны. Вы согласны?';
+          if (confirm(rewriteWarning)) {
             this.wheelStore.setNewVariants(result.data);
             alert('Данные успешно импортированы!');
           }
