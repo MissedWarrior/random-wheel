@@ -21,6 +21,7 @@
 
 <script>
   import { createConfig, validateConfig } from '/@/utils/data-workflow';
+  import { downloadFile } from '/@/utils/download-file';
 
   import AddPoint from './AddPoint.vue';
   import BackgroundImage from './BackgroundImage.vue';
@@ -105,13 +106,14 @@
         const currentItems = this.wheelStore.getActiveList();
 
         const config = createConfig(currentItems);
-        const blob = new Blob([JSON.stringify(config)], { type: 'application/json' });
-        const link = document.createElement('a');
+        const blob = new Blob([JSON.stringify(config)], {
+          type: 'application/json',
+        });
 
-        link.download = 'config-schema.json';
-        link.href = URL.createObjectURL(blob);
-
-        link.click();
+        downloadFile({
+          fileName: 'config-schema.json',
+          blob,
+        });
       },
     },
   };
