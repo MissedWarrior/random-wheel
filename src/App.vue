@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.app">
-    <Header @open-modal="isModalOpen = true"/>
+    <Header @open-settings="isModalOpen = true"/>
 
     <div :class="$style.main">
       <Wheel/>

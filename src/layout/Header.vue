@@ -1,7 +1,9 @@
 <template>
   <div :class="$style.header">
     <div :class="$style.inner">
-      <Button @click="$emit('open-modal')">Настройки</Button>
+      <Button @click="openSettings">
+        Настройки
+      </Button>
     </div>
   </div>
 </template>
@@ -12,6 +14,14 @@
   export default {
     name: 'Header',
     components: { Button },
+    emits: {
+      'open-settings': null,
+    },
+    methods: {
+      openSettings() {
+        this.$emit('open-settings');
+      }
+    },
   };
 </script>
 

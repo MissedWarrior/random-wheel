@@ -7,13 +7,13 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.2.24",
+    "vue": "^3.2.33",
     "seedrandom": "^3.0.5",
     "simplebar": "^5.3.6"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.10.2",
-    "@vue/compiler-sfc": "^3.2.24",
+    "@vue/compiler-sfc": "^3.2.33",
     "sass": "^1.32.5",
     "vite": "^2.7.1"
   },
