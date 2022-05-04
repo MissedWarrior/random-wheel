@@ -12,10 +12,10 @@
     "simplebar": "^5.3.6"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^1.10.2",
+    "@vitejs/plugin-vue": "^2.3.1",
     "@vue/compiler-sfc": "^3.2.33",
     "sass": "^1.32.5",
-    "vite": "^2.7.1"
+    "vite": "^2.9.7"
   },
   "license": "MIT",
   "author": "MissedWarrior"
